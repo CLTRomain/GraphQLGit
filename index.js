@@ -41,7 +41,20 @@ const skillTypes = [
   "front-end",
   "sys-admin"
 ];
-
+async function logout() {
+  document.querySelector('.content-wrapper').style.display = "none"
+  document.querySelector('.logout').style.display = "none"
+  document.querySelector('.login').style.display = "block"
+    // Remove the chart
+    const xpContainer = document.getElementById('xp-container');
+    while (xpContainer.firstChild) {
+      xpContainer.removeChild(xpContainer.firstChild);
+    }
+    const levelContainer = document.getElementById('level-container');
+    while (levelContainer.firstChild) {
+      levelContainer.removeChild(levelContainer.firstChild);
+    }
+}
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -58,12 +71,17 @@ async function login() {
         throw new Error('Invalid credentials');
       }
       token = await response.json();
-      document.querySelector('.logout').style.display = "flex"
-      document.querySelector('.content-wrapper').style.display = "flex"
+      document.querySelector('.logout').style.display = "block"
+      document.querySelector('.content-wrapper').style.display = "block"
       document.querySelector('.login').style.display = "none"
       document.getElementById('error').innerText = "" 
+
+
+
       const user = await getDataUser() 
       const data = await getDataXP()
+
+      
     console.log(user)
       const test = createGraphXP(data)
       const ratio = createRatio(data)
