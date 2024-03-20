@@ -81,7 +81,7 @@ async function login() {
        const user = await getDataUser() 
        const data = await getDataXP()
 
-      sconsole.log(user)
+      console.log(user)
       console.log(data)
 
       
