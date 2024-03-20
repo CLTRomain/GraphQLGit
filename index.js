@@ -81,6 +81,9 @@ async function login() {
       const user = await getDataUser() 
       const data = await getDataXP()
 
+      console.log(user)
+      console.log(data)
+
       
     // console.log(user)
     //   const test = createGraphXP(data)
