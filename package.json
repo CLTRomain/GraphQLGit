@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "graphql": "^16.8.1",
+    "node-fetch": "^3.3.2"
+  }
+}
