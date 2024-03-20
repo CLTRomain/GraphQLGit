@@ -71,18 +71,18 @@ async function login() {
         throw new Error('Invalid credentials');
       }
       token = await response.json();
-      document.querySelector('.logout').style.display = "flex"
-      document.querySelector('.personal-info').style.display = "flex"
+      document.querySelector('.logout').style.display = "none"
+      document.querySelector('.personal-info').style.display = "none"
       document.querySelector('.login').style.display = "none"
       document.getElementById('error').innerText = "" 
 
 
 
-      const user = await getDataUser() 
-      const data = await getDataXP()
+      // const user = await getDataUser() 
+      // const data = await getDataXP()
 
-      console.log(user)
-      console.log(data)
+      // console.log(user)
+      // console.log(data)
 
       
     // console.log(user)
