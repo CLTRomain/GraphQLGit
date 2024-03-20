@@ -41,20 +41,7 @@ const skillTypes = [
   "front-end",
   "sys-admin"
 ];
-async function logout() {
-  document.querySelector('.content-wrapper').style.display = "none"
-  document.querySelector('.logout').style.display = "none"
-  document.querySelector('.login').style.display = "block"
-    // Remove the chart
-    const xpContainer = document.getElementById('xp-container');
-    while (xpContainer.firstChild) {
-      xpContainer.removeChild(xpContainer.firstChild);
-    }
-    const levelContainer = document.getElementById('level-container');
-    while (levelContainer.firstChild) {
-      levelContainer.removeChild(levelContainer.firstChild);
-    }
-}
+
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
