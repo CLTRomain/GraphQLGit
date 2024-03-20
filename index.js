@@ -72,7 +72,7 @@ async function login() {
       }
       token = await response.json();
       document.querySelector('.logout').style.display = "block"
-      document.querySelector('.content-wrapper').style.display = "block"
+      document.querySelector('.personal-info').style.display = "block"
       document.querySelector('.login').style.display = "none"
       document.getElementById('error').innerText = "" 
 
@@ -88,20 +88,9 @@ async function login() {
       console.log(ratio)
       const level = createLevel(data)
       console.log(level)
-      document.getElementById('resultat').innerText = `TOTAL XP : ${test}`;
-      document.getElementById('top-xp').innerText = `${test}`;
-      document.getElementById('top-level').innerText = `100`;
-      document.getElementById('id').innerText = `ID : ${user.id}`;
-      document.getElementById('ratio').innerText = `Ratio : ${ratio}`;
-      document.getElementById('level').innerText = `Level : ${level}`;
-      document.getElementById('welcome').innerText = `Welcome ${user.attrs.firstName} ${user.attrs.lastName}`; 
-      
-      console.log("Skill Levels:");
-      const skillLevels = createSkills(data, skillTypes);
-      Object.entries(skillLevels).forEach(([skillType, level]) => {
-        console.log(`${skillType}: ${level}`);
-      });
-      createSkillBarGraph(skillLevels);
+
+  
+   
     } catch (error) {
       document.getElementById('error').innerText = 'Invalid credentials. Please try again.';
     }
