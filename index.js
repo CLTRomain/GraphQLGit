@@ -82,12 +82,12 @@ async function login() {
       const data = await getDataXP()
 
       
-    console.log(user)
-      const test = createGraphXP(data)
-      const ratio = createRatio(data)
-      console.log(ratio)
-      const level = createLevel(data)
-      console.log(level)
+    // console.log(user)
+    //   const test = createGraphXP(data)
+    //   const ratio = createRatio(data)
+    //   console.log(ratio)
+    //   const level = createLevel(data)
+    //   console.log(level)
 
   
    
