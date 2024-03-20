@@ -71,8 +71,8 @@ async function login() {
         throw new Error('Invalid credentials');
       }
       token = await response.json();
-      document.querySelector('.logout').style.display = "none"
-      document.querySelector('.personal-info').style.display = "none"
+      document.querySelector('.logout').style.display = "block"
+      document.querySelector('.personal-info').style.display = "block"
       document.querySelector('.login').style.display = "none"
       document.getElementById('error').innerText = "" 
 
