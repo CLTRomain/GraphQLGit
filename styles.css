@@ -18,3 +18,7 @@
   .logout {
     display: none;
   }
+
+.personal-info {
+    display: none;
+}
