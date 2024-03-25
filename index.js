@@ -82,7 +82,7 @@ async function login() {
     const data = await getDataXP();
 
     // Créer le graphique d'XP, le ratio et le niveau
-    const test = createGraphXP(data);
+    const test = createSkillBarGraph(data);
     const ratio = createRatio(data);
     const level = createLevel(data);
 
