@@ -241,7 +241,7 @@ function createSkills(transactions, skillTypes) {
 // Fonction pour créer un graphique à barres des compétences
 
 function createSkillBarGraph(skillLevels) {
-  const svgContainer = document.getElementsByClassName('personal-info');
+  const svgContainer = document.getElementById('level-container');
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
