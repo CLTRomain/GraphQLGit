@@ -33,6 +33,8 @@ async function logout() {
   // Cacher le contenu et le bouton de déconnexion
   document.querySelector('.content-wrapper').style.display = "none";
   document.querySelector('.logout').style.display = "none";
+  document.querySelector('.personal-info').style.display = "none";
+
   document.querySelector('.login').style.display = "block";
 
   // Supprimer le graphique
