@@ -81,8 +81,8 @@ async function login() {
     const user = await getDataUser();
     const data = await getDataXP();
 
-/*    // Créer le graphique d'XP, le ratio et le niveau
-    const test = createSkillBarGraph(data);*/
+   // Créer le graphique d'XP, le ratio et le niveau
+    createSkillBarGraph(data);
     const ratio = createRatio(data);
     const level = createLevel(data);
 
@@ -237,3 +237,42 @@ function createSkills(transactions, skillTypes) {
 }
 
 // Fonction pour créer un graphique à barres des compétences
+
+function createSkillBarGraph(skillLevels) {
+  const svgContainer = document.getElementById('level-container');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+
+  const barWidth = svgContainer.clientWidth / Object.keys(skillLevels).length;
+  let index = 0;
+
+  for (const [skillType, level] of Object.entries(skillLevels)) {
+    const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+    const barHeight = (level / 100) * svgContainer.clientHeight;
+
+    const xPosition = index * barWidth;
+    const yPosition = svgContainer.clientHeight - barHeight;
+
+    bar.setAttribute('x', xPosition);
+    bar.setAttribute('y', yPosition);
+    bar.setAttribute('width', barWidth);
+    bar.setAttribute('height', barHeight);
+    bar.setAttribute('fill', 'steelblue');
+
+    svg.appendChild(bar);
+
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.setAttribute('x', xPosition + barWidth / 2);
+    label.setAttribute('y', svgContainer.clientHeight - 5);
+    label.setAttribute('fill', '#333');
+    label.setAttribute('text-anchor', 'middle');
+    label.textContent = skillType;
+    svg.appendChild(label);
+
+    index++;
+  }
+
+  svgContainer.appendChild(svg);
+}
