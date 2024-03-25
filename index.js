@@ -244,13 +244,16 @@ function createSkillBarGraph(skillLevels) {
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
 
-  const barWidth = svgContainer.clientWidth / Object.keys(skillLevels).length;
+  // Convertir les dates de chaînes en objets Date et trier les transactions par date
+  const sortedSkillLevels = skillLevels.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+  const barWidth = svgContainer.clientWidth / sortedSkillLevels.length;
   let index = 0;
 
-  for (const [skillType, level] of Object.entries(skillLevels)) {
+  for (const { type, amount, path, createdAt } of sortedSkillLevels) {
     const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
 
-    const barHeight = (level / 100) * svgContainer.clientHeight;
+    const barHeight = (amount / 100) * svgContainer.clientHeight;
 
     const xPosition = index * barWidth;
     const yPosition = svgContainer.clientHeight - barHeight;
@@ -268,7 +271,7 @@ function createSkillBarGraph(skillLevels) {
     label.setAttribute('y', svgContainer.clientHeight - 5);
     label.setAttribute('fill', '#333');
     label.setAttribute('text-anchor', 'middle');
-    label.textContent = skillType;
+    label.textContent = type;
     svg.appendChild(label);
 
     index++;
