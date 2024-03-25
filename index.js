@@ -75,14 +75,24 @@ async function login() {
     document.querySelector('.content-wrapper').style.display = "flex"
     document.querySelector('.login').style.display = "none"
     document.getElementById('error').innerText = ""
+
+
     const user = await getDataUser()
     const data = await getDataXP()
+
+
     console.log(user)
+
     const test = createGraphXP(data)
     const ratio = createRatio(data)
+
+
     console.log(ratio)
+
     const level = createLevel(data)
+
     console.log(level)
+
     document.getElementById('resultat').innerText = `TOTAL XP : ${test}`;
     document.getElementById('top-xp').innerText = `${test}`;
     document.getElementById('top-level').innerText = `100`;
@@ -294,7 +304,9 @@ async function createSkillBarGraph(skillLevels) {
     bar.setAttribute('y', yPosition);
     bar.setAttribute('width', barWidth);
     bar.setAttribute('height', barHeight);
-    bar.setAttribute('fill', 'steelblue');
+    bar.setAttribute('fill', '#ff7f0e'); // Change the bar color here
+    bar.setAttribute('stroke', '#333'); // Add stroke color for better visibility
+    bar.setAttribute('stroke-width', '1'); // Adjust stroke width as needed
     svg.appendChild(bar);
     // Display skill type labels
     const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
@@ -302,6 +314,7 @@ async function createSkillBarGraph(skillLevels) {
     label.setAttribute('y', svgContainer.clientHeight - 5);
     label.setAttribute('fill', '#333');
     label.setAttribute('text-anchor', 'middle');
+    label.setAttribute('font-size', '12px'); // Adjust font size as needed
     label.textContent = skillType;
     svg.appendChild(label);
     index++;
@@ -314,11 +327,13 @@ async function createSkillBarGraph(skillLevels) {
     yAxisTick.setAttribute('y1', (i / 10) * svgContainer.clientHeight);
     yAxisTick.setAttribute('y2', (i / 10) * svgContainer.clientHeight);
     yAxisTick.setAttribute('stroke', '#ccc');
+    yAxisTick.setAttribute('stroke-dasharray', '4'); // Add dasharray for dashed line
     svg.appendChild(yAxisTick);
     const yAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     yAxisLabel.setAttribute('x', '5');
     yAxisLabel.setAttribute('y', (i / 10) * svgContainer.clientHeight - 5);
     yAxisLabel.setAttribute('fill', '#333');
+    yAxisLabel.setAttribute('font-size', '12px'); // Adjust font size as needed
     yAxisLabel.textContent = Math.round(100 * (10 - i) / 10); // Assuming maximum level is 100 for scaling
     svg.appendChild(yAxisLabel);
   }
