@@ -1,4 +1,3 @@
-const DOMAIN = "zone01normandie.org"; // Domaine de l'API GraphQL
 let token; // Variable pour stocker le jeton d'authentification
 
 // Requête GraphQL pour récupérer les transactions d'XP
@@ -55,7 +54,7 @@ async function login() {
 
   try {
     // Effectuer une demande d'authentification
-    const response = await fetch(`https://${DOMAIN}/api/auth/signin`, {
+    const response = await fetch(`https://zone01normandie.org/api/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -82,7 +81,7 @@ async function login() {
     const data = await getDataXP();
 
     // Créer le graphique d'XP, le ratio et le niveau
-    const test = createGraphXP(data);
+    const test = createSkillBarGraph(data);
     const ratio = createRatio(data);
     const level = createLevel(data);
 
@@ -101,7 +100,7 @@ async function login() {
 // Fonction pour récupérer les données d'XP depuis l'API GraphQL
 async function getDataXP() {
   try {
-    const response = await fetch(`https://${DOMAIN}/api/graphql-engine/v1/graphql`, {
+    const response = await fetch(`https://zone01normandie.org/api/auth/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -234,6 +233,71 @@ function createSkills(transactions, skillTypes) {
   });
 
   return skillLevels;
+}
+
+// Fonction pour créer un graphique à barres des compétences
+async function createSkillBarGraph(skillLevels) {
+  const svgContainer = document.getElementById('level-container');
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('width', '100%');
+  svg.setAttribute('height', '100%');
+
+  const barWidth = svgContainer.clientWidth / Object.keys(skillLevels).length;
+  let index = 0;
+
+  // Pour chaque type de compétence, créer une barre dans le graphique
+  for (const [skillType, level] of Object.entries(skillLevels)) {
+    const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+
+    // Calculer la hauteur de la barre en fonction du niveau de compétence
+    const barHeight = (level / 100) * svgContainer.clientHeight; // Supposant que le niveau maximum est 100 pour l'échelle
+
+    // Positionner la barre sur le graphique
+    const xPosition = index * barWidth;
+    const yPosition = svgContainer.clientHeight - barHeight;
+
+    // Définir les attributs de la barre
+    bar.setAttribute('x', xPosition);
+    bar.setAttribute('y', yPosition);
+    bar.setAttribute('width', barWidth);
+    bar.setAttribute('height', barHeight);
+    bar.setAttribute('fill', 'steelblue');
+
+    // Ajouter la barre au graphique SVG
+    svg.appendChild(bar);
+
+    // Afficher les étiquettes des types de compétences
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.setAttribute('x', xPosition + barWidth / 2);
+    label.setAttribute('y', svgContainer.clientHeight - 5);
+    label.setAttribute('fill', '#333');
+    label.setAttribute('text-anchor', 'middle');
+    label.textContent = skillType;
+    svg.appendChild(label);
+
+    index++;
+  }
+
+  // Créer des ticks et des labels pour l'axe Y (niveau de compétence)
+  for (let i = 0; i <= 10; i++) {
+    const yAxisTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    yAxisTick.setAttribute('x1', '0');
+    yAxisTick.setAttribute('x2', svgContainer.clientWidth);
+    yAxisTick.setAttribute('y1', (i / 10) * svgContainer.clientHeight);
+    yAxisTick.setAttribute('y2', (i / 10) * svgContainer.clientHeight);
+    yAxisTick.setAttribute('stroke', '#ccc');
+    svg.appendChild(yAxisTick);
+
+    const yAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    yAxisLabel.setAttribute('x', '5');
+    yAxisLabel.setAttribute('y', (i / 10) * svgContainer.clientHeight - 5);
+    yAxisLabel.setAttribute('fill', '#333');
+    yAxisLabel.textContent = Math.round(100 * (10 - i) / 10); // Supposant que le niveau maximum est 100 pour l'échelle
+    svg.appendChild(yAxisLabel);
+  }
+
+  // Ajouter le graphique SVG au conteneur
+  svgContainer.appendChild(svg);
 }
 
 // Fonction pour créer un graphique à barres des compétences
