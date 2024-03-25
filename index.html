@@ -7,42 +7,40 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;700&family=Poppins:wght@400;600;700&display=swap"
-        rel="stylesheet">
+            href="https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;700&family=Poppins:wght@400;600;700&display=swap"
+            rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
     <title>GraphQL Zone01</title>
     <link type="image/x-icon" rel="icon" href="favicon.png"/>
 </head>
 <body>
-    
-    <div class="logout">
-        <button class="signout-btn" onclick="logout()">Logout</button>
-    </div>
-    <div class="login">
-        <input type="text" class="signin-input" id="username" class="category-input" name="username" placeholder="Username"/><br>
-        <input type="password" class="signin-input" id="password" class="category-input" name="password" placeholder="Mot de passe" /><br>
-        <p id="error" style="color: red;"></p>
-        <button class="signin-btn" onclick="login()">Login</button>
-    </div>
-    <div class="personal-info">
 
-        <br>
-        <H1> test </H1>
-        <div class="head">
+<div class="logout">
+    <button class="signout-btn" onclick="logout()">Logout</button>
+</div>
+<div class="login">
+    <input type="text" class="signin-input" id="username" class="category-input" name="username" placeholder="Username"/><br>
+    <input type="password" class="signin-input" id="password" class="category-input" name="password" placeholder="Mot de passe" /><br>
+    <p id="error" style="color: red;"></p>
+    <button class="signin-btn" onclick="login()">Login</button>
+</div>
+<div class="content-wrapper">
+    <br>
+    <div class="head">
         <br>
         <div id="welcome"></div>
         <div id="id"></div>
         <div id="resultat"></div>
         <div id="level"></div>
-        <div id="ratio"></div>  
-        </div>
-        <br>
-        <div id="top-xp"></div>
-        <div id="xp-container"></div>
-        <br>
-        <div id="top-level"></div>
-        <div id="level-container"></div>
+        <div id="ratio"></div>
     </div>
+    <br>
+    <div id="top-xp"></div>
+    <div id="xp-container"></div>
+    <br>
+    <div id="top-level"></div>
+    <div id="level-container"></div>
+</div>
 </body>
 <script src="index.js"></script>
 </html>
