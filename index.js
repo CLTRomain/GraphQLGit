@@ -293,7 +293,7 @@ async function createSkillBarGraph(skillLevels) {
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
-  svg.style.backgroundColor = '#green'; // Changer la couleur de fond ici
+  svg.style.backgroundColor = 'green'; // Changer la couleur de fond ici
 
   const barWidth = svgContainer.clientWidth / Object.keys(skillLevels).length;
   let index = 0;
