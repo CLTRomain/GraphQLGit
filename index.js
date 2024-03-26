@@ -136,35 +136,50 @@ async function getDataXP() {
     throw new Error('Failed to fetch data');
   }
 }
+
+
+
 function createGraphXP(transactions) {
+  // Filtrer les transactions pour inclure uniquement celles qui correspondent à certains critères
   const filteredTransactions = transactions.filter(transaction => {
     return transaction.path.includes("/div-01") && !transaction.path.includes("piscine-js/");
   });
+
+
+  // Filtrer les transactions pour inclure uniquement celles de type "xp"
   const data = filteredTransactions.filter(filteredTransaction => {
     return filteredTransaction.type === "xp";
   });
+
+  // Trier les données par ordre chronologique
   const sortedData = data.slice().sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-  // Create the SVG container
+
+  console.log(sortedData)
+
+  // Créer le conteneur SVG
   const svgContainer = document.getElementById('xp-container');
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
-  // Create the line
+
+  // Créer la ligne du graphique
   const accumulatedValues = [];
   let accumulatedTotal = 0;
   sortedData.forEach((entry, index) => {
     accumulatedTotal += entry.amount;
     accumulatedValues.push({ x: index, y: accumulatedTotal });
   });
-  // Calculate Y-axis step size
+
+  // Calculer la taille des graduations de l'axe Y
   const yAxisStep = Math.ceil(Math.max(accumulatedTotal));
-  // Calculate X-axis step size (assuming 30 days per month)
-  const dateStep = 30 * 24 * 60 * 60 * 1000; // 30 days in milliseconds
-  // Calculate the number of months between the start and end date
+
+  // Calculer la taille des graduations de l'axe X
+  const dateStep = 30 * 24 * 60 * 60 * 1000; // 30 jours en millisecondes
   const startDate = new Date(sortedData[0].createdAt);
   const endDate = new Date(sortedData[sortedData.length - 1].createdAt);
   const monthsDifference = monthsBetweenDates(startDate, endDate);
-  // Create the line
+
+  // Créer la ligne du graphique
   const line = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
   const points = accumulatedValues.map(entry => `${(entry.x / (sortedData.length - 1)) * svgContainer.clientWidth},${svgContainer.clientHeight - (entry.y / yAxisStep) * svgContainer.clientHeight}`);
   line.setAttribute('points', points.join(' '));
@@ -172,7 +187,8 @@ function createGraphXP(transactions) {
   line.setAttribute('stroke', 'steelblue');
   line.setAttribute('stroke-width', '2');
   svg.appendChild(line);
-  // Create Y-axis ticks and labels
+
+  // Créer les graduations de l'axe Y
   for (let i = 0; i <= 10; i++) {
     const yAxisTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     yAxisTick.setAttribute('x1', '0');
@@ -181,6 +197,7 @@ function createGraphXP(transactions) {
     yAxisTick.setAttribute('y2', (i / 10) * svgContainer.clientHeight);
     yAxisTick.setAttribute('stroke', '#ccc');
     svg.appendChild(yAxisTick);
+
     const yAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     yAxisLabel.setAttribute('x', '5');
     yAxisLabel.setAttribute('y', (i / 10) * svgContainer.clientHeight - 5);
@@ -188,7 +205,8 @@ function createGraphXP(transactions) {
     yAxisLabel.textContent = Math.round(yAxisStep*(10-i)/10);
     svg.appendChild(yAxisLabel);
   }
-  // Create X-axis ticks and labels
+
+  // Créer les graduations de l'axe X
   for (let i = 0; i <= monthsDifference; i++) {
     const dateForTick = new Date(startDate.getTime() + (i / monthsDifference) * monthsDifference * dateStep);
     const xAxisTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
@@ -198,6 +216,7 @@ function createGraphXP(transactions) {
     xAxisTick.setAttribute('y2', svgContainer.clientHeight);
     xAxisTick.setAttribute('stroke', '#ccc');
     svg.appendChild(xAxisTick);
+
     const xAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     xAxisLabel.setAttribute('x', (i / monthsDifference) * svgContainer.clientWidth);
     xAxisLabel.setAttribute('y', svgContainer.clientHeight - 5);
@@ -205,9 +224,19 @@ function createGraphXP(transactions) {
     xAxisLabel.textContent = formatDate(dateForTick);
     svg.appendChild(xAxisLabel);
   }
+
+  // Ajouter le graphique au conteneur SVG
   svgContainer.appendChild(svg);
+
+  // Retourner la somme totale accumulée (non utilisée dans ce code)
   return accumulatedTotal;
 }
+
+
+
+
+
+
 function formatDate(date) {
   const options = { month: 'short', year: 'numeric' };
   return date.toLocaleDateString('en-US', options);
@@ -223,7 +252,7 @@ async function getDataUser() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ query2 }),
+      body: JSON.stringify({ query: query2 }),
     });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
