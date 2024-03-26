@@ -223,7 +223,7 @@ async function getDataUser() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify({ query: query2 }),
+      body: JSON.stringify({ query2 }),
     });
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
