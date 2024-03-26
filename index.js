@@ -71,6 +71,7 @@ async function login() {
       throw new Error('Invalid credentials');
     }
     token = await response.json();
+    console.log(token)
     document.querySelector('.logout').style.display = "flex"
     document.querySelector('.content-wrapper').style.display = "flex"
     document.querySelector('.login').style.display = "none"
@@ -78,6 +79,7 @@ async function login() {
 
 
     const user = await getDataUser()
+
     const data = await getDataXP()
 
 
