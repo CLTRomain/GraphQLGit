@@ -158,6 +158,8 @@ function createGraphXP(transactions) {
 
   // Créer le conteneur SVG
   const svgContainer = document.getElementById('xp-container');
+
+
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
@@ -170,7 +172,7 @@ function createGraphXP(transactions) {
     accumulatedValues.push({ x: index, y: accumulatedTotal });
   });
 
-  // Calculer la taille des graduations de l'axe Y
+  /*// Calculer la taille des graduations de l'axe Y
   const yAxisStep = Math.ceil(Math.max(accumulatedTotal));
 
   // Calculer la taille des graduations de l'axe X
@@ -203,7 +205,7 @@ function createGraphXP(transactions) {
     yAxisLabel.setAttribute('y', (i / 10) * svgContainer.clientHeight - 5);
     yAxisLabel.setAttribute('fill', '#333');
     yAxisLabel.textContent = Math.round(yAxisStep*(10-i)/10);
-    svg.appendChild(yAxisLabel);
+    svg.appendChild(yAxisLabel);*/
   }
 
   // Créer les graduations de l'axe X
