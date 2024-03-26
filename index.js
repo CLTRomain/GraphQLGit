@@ -164,11 +164,14 @@ function createGraphXP(transactions) {
   svg.setAttribute('width', '100%');
   svg.setAttribute('height', '100%');
 
+
+
   // Créer la ligne du graphique
   const accumulatedValues = [];
   let accumulatedTotal = 0;
   sortedData.forEach((entry, index) => {
     accumulatedTotal += entry.amount;
+    console.log(accumulatedTotal)
     accumulatedValues.push({ x: index, y: accumulatedTotal });
   });
 
