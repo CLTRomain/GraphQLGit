@@ -154,7 +154,6 @@ function createGraphXP(transactions) {
   // Trier les données par ordre chronologique
   const sortedData = data.slice().sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-  console.log(sortedData)
 
   // Créer le conteneur SVG
   const svgContainer = document.getElementById('xp-container');
@@ -169,6 +168,7 @@ function createGraphXP(transactions) {
   // Créer la ligne du graphique
   const accumulatedValues = [];
   let accumulatedTotal = 0;
+
   sortedData.forEach((entry, index) => {
     accumulatedTotal += entry.amount;
     console.log(accumulatedTotal)
