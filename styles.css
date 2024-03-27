@@ -5,7 +5,9 @@
 }
 
 .login{
-background: red;
+background: whitesmoke;
+    border: 1px solid #ccc;
+
 }
 
 #xp-container {
