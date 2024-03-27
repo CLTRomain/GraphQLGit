@@ -3,6 +3,11 @@
     padding: 0;
     background: blue;
 }
+
+.login{
+background: red;
+}
+
 #xp-container {
     width: 1600px;
     height: 400px;
