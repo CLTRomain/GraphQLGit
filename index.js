@@ -357,6 +357,7 @@ async function createSkillBarGraph(skillLevels) {
     svg.appendChild(label);
     index++;
   }
+
   // Create Y-axis ticks and labels (adjust as needed)
   for (let i = 0; i <= 10; i++) {
     const yAxisTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');

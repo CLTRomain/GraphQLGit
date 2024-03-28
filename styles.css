@@ -1,19 +1,18 @@
 *{
     margin: 0;
     padding: 0;
-    background: blue;
+    background: aliceblue;
+    display: flex;
 }
 
-.login{
-background: whitesmoke;
-    border: 1px solid #ccc;
-
-}
+.title {
+    margin-left: 150px;
+ }
 
 #xp-container {
     width: 1600px;
     height: 400px;
-    border: 1px solid #ccc;
+    border: 1px solid #ff0000;
 }
 #level-container {
     width: 1600px;
@@ -23,8 +22,51 @@ background: whitesmoke;
 
 .content-wrapper {
     display: none;
-    flex-direction: column;
 }
+
 .logout {
     display: none;
+}
+
+.login {
+    margin-top: 220px;
+    margin-left: 650px;
+    width: 400px;
+    height: 200px;
+    padding-top: 20px;
+    flex-direction: column;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.signin-input {
+    width: 80%;
+
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.signin-btn {
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-left: 260px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.signin-btn:hover {
+    background-color: #0056b3;
+}
+
+#error {
+    margin-top: 10px;
+    font-size: 14px;
 }
