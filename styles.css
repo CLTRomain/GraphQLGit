@@ -21,11 +21,14 @@
 }
 
 .content-wrapper {
+    flex-direction: column;
+
     display: none;
 }
 
 .logout {
     display: none;
+    background: red;
 }
 
 .login {

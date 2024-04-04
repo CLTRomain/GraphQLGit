@@ -97,7 +97,6 @@ async function login() {
 
     document.getElementById('resultat').innerText = `TOTAL XP : ${test}`;
     document.getElementById('top-xp').innerText = `${test}`;
-    document.getElementById('top-level').innerText = `100`;
     document.getElementById('id').innerText = `ID : ${user.id}`;
     document.getElementById('ratio').innerText = `Ratio : ${ratio}`;
     document.getElementById('level').innerText = `Level : ${level}`;
@@ -105,10 +104,15 @@ async function login() {
 
     console.log("Skill Levels:");
     const skillLevels = createSkills(data, skillTypes);
+    console.log(skillLevels)
     Object.entries(skillLevels).forEach(([skillType, level]) => {
       console.log(`${skillType}: ${level}`);
     });
+
+
     createSkillBarGraph(skillLevels);
+
+
   } catch (error) {
     document.getElementById('error').innerText = 'Invalid credentials. Please try again.';
   }
@@ -136,6 +140,7 @@ async function getDataXP() {
     throw new Error('Failed to fetch data');
   }
 }
+
 
 
 
@@ -237,11 +242,6 @@ function createGraphXP(transactions) {
   return accumulatedTotal;
 }
 
-
-
-
-
-
 function formatDate(date) {
   const options = { month: 'short', year: 'numeric' };
   return date.toLocaleDateString('en-US', options);
@@ -310,71 +310,86 @@ function createLevel(transactions){
 }
 function createSkills(transactions, skillTypes) {
   const skillLevels = {};
+
+  // Initialize all skill levels to 0
   skillTypes.forEach(skillType => {
-    let skillLevel = 0;
-    const filterSkillTransactions = transactions.filter(transaction => {
-      return transaction.type === `skill_${skillType}`;
-    });
-    filterSkillTransactions.forEach(entry => {
-      if (entry.amount > skillLevel) {
-        skillLevel = entry.amount;
-      }
-    });
-    skillLevels[skillType] = skillLevel;
+    skillLevels[skillType] = 0;
   });
+
+  // Update skill levels based on transaction data
+  transactions.forEach(transaction => {
+    if (transaction.type.startsWith('skill_')) {
+      const skillType = transaction.type.substring('skill_'.length);
+      if (skillLevels.hasOwnProperty(skillType)) {
+        skillLevels[skillType] = Math.max(skillLevels[skillType], transaction.amount);
+      }
+    }
+  });
+
   return skillLevels;
 }
+
 async function createSkillBarGraph(skillLevels) {
   const svgContainer = document.getElementById('level-container');
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('width', '100%');
-  svg.setAttribute('height', '100%');
-  svg.style.backgroundColor = 'green'; // Changer la couleur de fond ici
+  svg.setAttribute('height', '500'); // Augmentez la hauteur à 500 pixels par exemple
+  svg.style.backgroundColor = 'lightgray'; // Changed background color
 
-  const barWidth = svgContainer.clientWidth / Object.keys(skillLevels).length;
-  let index = 0;
-  for (const [skillType, level] of Object.entries(skillLevels)) {
+  const barHeight = 20; // Height of each bar
+  const barSpacing = 5; // Spacing between bars
+  const maxBarWidth = svgContainer.clientWidth * 0.8; // Maximum width for bars
+  const labelOffset = 5; // Offset for label inside the bar
+  const percentageOffset = 10; // Offset for percentage outside the bar
+
+  // Get all skill types
+  const allSkills = Object.keys(skillLevels);
+
+  // Sort the skills by level in descending order
+  allSkills.sort((a, b) => skillLevels[b] - skillLevels[a])
+
+  let yPosition = barSpacing; // Initial y-position
+
+  // Iterate through allSkills to create bars
+  allSkills.forEach(skillType => {
+    // Get skill level
+    const level = skillLevels[skillType];
+
+    // Calculate width of the bar based on percentage level
+    const barWidth = (level / 100) * maxBarWidth;
+
+    // Create bar
     const bar = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-    const barHeight = (level / 100) * svgContainer.clientHeight; // Assuming the maximum level is 100 for scaling
-    const xPosition = index * barWidth;
-    const yPosition = svgContainer.clientHeight - barHeight;
-    bar.setAttribute('x', xPosition);
+    bar.setAttribute('x', 0);
     bar.setAttribute('y', yPosition);
     bar.setAttribute('width', barWidth);
     bar.setAttribute('height', barHeight);
-    bar.setAttribute('fill', '#ff7f0e'); // Change the bar color here
-    bar.setAttribute('stroke', '#333'); // Add stroke color for better visibility
-    bar.setAttribute('stroke-width', '1'); // Adjust stroke width as needed
+    bar.setAttribute('fill', 'skyblue'); // Changed bar color
     svg.appendChild(bar);
-    // Display skill type labels
-    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    label.setAttribute('x', xPosition + barWidth / 2);
-    label.setAttribute('y', svgContainer.clientHeight - 5);
-    label.setAttribute('fill', '#333');
-    label.setAttribute('text-anchor', 'middle');
-    label.setAttribute('font-size', '12px'); // Adjust font size as needed
-    label.textContent = skillType;
-    svg.appendChild(label);
-    index++;
-  }
 
-  // Create Y-axis ticks and labels (adjust as needed)
-  for (let i = 0; i <= 10; i++) {
-    const yAxisTick = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    yAxisTick.setAttribute('x1', '0');
-    yAxisTick.setAttribute('x2', svgContainer.clientWidth);
-    yAxisTick.setAttribute('y1', (i / 10) * svgContainer.clientHeight);
-    yAxisTick.setAttribute('y2', (i / 10) * svgContainer.clientHeight);
-    yAxisTick.setAttribute('stroke', '#ccc');
-    yAxisTick.setAttribute('stroke-dasharray', '4'); // Add dasharray for dashed line
-    svg.appendChild(yAxisTick);
-    const yAxisLabel = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    yAxisLabel.setAttribute('x', '5');
-    yAxisLabel.setAttribute('y', (i / 10) * svgContainer.clientHeight - 5);
-    yAxisLabel.setAttribute('fill', '#333');
-    yAxisLabel.setAttribute('font-size', '12px'); // Adjust font size as needed
-    yAxisLabel.textContent = Math.round(100 * (10 - i) / 10); // Assuming maximum level is 100 for scaling
-    svg.appendChild(yAxisLabel);
-  }
+    // Display skill type label inside the bar
+    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    label.setAttribute('x', labelOffset); // Adjust position inside the bar
+    label.setAttribute('y', yPosition + barHeight / 2);
+    label.setAttribute('fill', '#333');
+    label.setAttribute('dominant-baseline', 'middle');
+    label.setAttribute('font-size', '12px');
+    label.textContent = skillType.toUpperCase(); // Display skill type in uppercase
+    svg.appendChild(label);
+
+    // Display percentage outside the bar with offset to the right
+    const percentage = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    percentage.setAttribute('x', barWidth + percentageOffset+50); // Adjusted position outside the bar
+    percentage.setAttribute('y', yPosition + barHeight / 2);
+    percentage.setAttribute('fill', '#333');
+    percentage.setAttribute('dominant-baseline', 'middle');
+    percentage.setAttribute('font-size', '12px');
+    percentage.textContent = `${level}%`; // Display percentage
+    svg.appendChild(percentage);
+
+    // Increment y-position for the next bar
+    yPosition += barHeight + barSpacing;
+  });
+
   svgContainer.appendChild(svg);
 }
